@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="EntryPoint">
+      <UniqueIdentifier>{a548c785-5897-4241-8e2a-46748b4f7521}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PCH">
+      <UniqueIdentifier>{fdef0e6a-1940-4bb1-96f0-8869ed5e3c3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{50af985d-fd85-4c59-a224-5beb3f089e4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Allocator">
+      <UniqueIdentifier>{3b8c3548-41a6-4407-af89-209ef0f08ba5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Allocator\StackAllocator">
+      <UniqueIdentifier>{8aa62ec2-7436-4705-88d3-bfbccb900c3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{2ae45954-aeeb-4633-b1cd-eefcef0e719d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>EntryPoint</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>PCH</Filter>
+    </ClInclude>
+    <ClInclude Include="IAllocator.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Allocator.h">
+      <Filter>Allocator</Filter>
+    </ClInclude>
+    <ClInclude Include="StackAllocator.h">
+      <Filter>Allocator\StackAllocator</Filter>
+    </ClInclude>
+    <ClInclude Include="PointerMath.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="RenameType.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>EntryPoint</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>PCH</Filter>
+    </ClCompile>
+    <ClCompile Include="IAllocator.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator.cpp">
+      <Filter>Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="StackAllocator.cpp">
+      <Filter>Allocator\StackAllocator</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
