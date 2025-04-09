@@ -20,6 +20,8 @@ bool StackAllocator::Init(size_t _totalByte, size_t _alignment)
 
 	m_alignment = _alignment;
 
+	m_size = _totalByte;
+
 	if (m_startPointer)
 	{
 		m_top = m_startPointer;
@@ -50,13 +52,14 @@ void* StackAllocator::Allocate(size_t _size)
 
 	AllocatorHeader* header = reinterpret_cast<AllocatorHeader*>(headerPtr);
 	header->m_adjustment = adjustment;
+	header->m_base = m_base;
 
-	m_base = m_top;
+	m_base = adressPtr;
 	m_top = adressPtr + _size;
 	m_usedMemory += _size + adjustment;
 	m_allcations++;
 
-	return nullptr;
+	return reinterpret_cast<void*>(adressPtr);
 }
 
 bool StackAllocator::Deallocate(void* _ptr)
@@ -70,6 +73,7 @@ bool StackAllocator::Deallocate(void* _ptr)
 	uintptr headerPtr = ptr - sizeof(AllocatorHeader);
 	AllocatorHeader* header = reinterpret_cast<AllocatorHeader*>(headerPtr);
 
+	m_base = header->m_base;
 	m_usedMemory -= m_top - ptr + header->m_adjustment;
 	m_top = ptr - header->m_adjustment;
 	m_allcations--;

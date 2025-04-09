@@ -10,6 +10,7 @@ private:
 
 	struct AllocatorHeader
 	{
+		uintptr m_base;
 		uint8 m_adjustment;
 	};
 

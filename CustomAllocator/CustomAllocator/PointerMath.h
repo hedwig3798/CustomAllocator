@@ -4,7 +4,7 @@ namespace PointerMath
 {
 	inline uint8 GetForwardAdjustment(uintptr _ptr, uint8 _alignment)
 	{
-		uint8 adjustment = _alignment - (_ptr & _alignment);
+		uint8 adjustment = _alignment - (_ptr & (_alignment - 1));
 
 		if (adjustment == _alignment)
 		{
@@ -21,7 +21,7 @@ namespace PointerMath
 		{
 			_headerSize -= adjustment;
 			adjustment += _alignment * (_headerSize / _alignment);
-			if ((_headerSize & _alignment) > 0)
+			if ((_headerSize % _alignment) > 0)
 			{
 				adjustment += _alignment;
 			}
