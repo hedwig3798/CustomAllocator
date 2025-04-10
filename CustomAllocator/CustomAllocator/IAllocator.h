@@ -18,14 +18,6 @@ public:
 	virtual ~IAllocator();
 
 	/// <summary>
-	/// 할당자 초기화
-	/// </summary>
-	/// <param name="_totalByte">할당자가 가질 수 있는 메모리 크기</param>
-	/// <param name="_alignment">정렬값, 기본 8바이트 정렬</param>
-	/// <returns>성공 여부</returns>
-	virtual bool Init(size_t _totalByte, size_t _alignment) = 0;
-
-	/// <summary>
 	/// 메모리 할당
 	/// </summary>
 	/// <param name="_size">할당 할 메모리 크기</param>
@@ -49,4 +41,10 @@ public:
 /// 스택 할당자 생성
 /// </summary>
 /// <returns> 스택 할당자</returns>
-extern "C" ALLOCATOR_DLL IAllocator* CreateStackAllocator();
+extern "C" ALLOCATOR_DLL IAllocator* CreateStackAllocator(size_t _totalByte, size_t _alignement = 16);
+
+/// <summary>
+/// 풀 할당자 생성
+/// </summary>
+/// <returns> 풀 할당자</returns>
+extern "C" ALLOCATOR_DLL IAllocator* CreatePoolAllocator(size_t _totalByte, size_t _objectSize, size_t _alignement = 16);

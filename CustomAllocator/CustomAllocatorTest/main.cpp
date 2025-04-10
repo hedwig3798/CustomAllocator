@@ -2,10 +2,13 @@
 #include <iostream>
 #include <string>
 #include <new>
+
 #include "../CustomAllocator/IAllocator.h"
 
-#define ALLOCATE_COUNT 100
+#define ALLOCATE_COUNT 100'000
 #define ALLOCATE_SIZE 10
+
+#define MEM_SIZE 1'048'576'000 //1GB
 
 class DataChunk
 {
@@ -30,51 +33,91 @@ void PrintAllocatorState(IAllocator* _allocator)
 
 int main()
 {
+#pragma region DLL Ready
 	std::string path("./CustomAllocator.dll");
 
 	HMODULE hDLL = ::LoadLibraryA(path.c_str());
-
 	if (hDLL == nullptr)
 	{
 		std::cout << "Cannot Link DLL\n";
 
 		return 0;
 	}
+#pragma endregion
 
+#pragma region Time Set
+	unsigned long long TPS;
+	unsigned long long start;
+	unsigned long long end;
+
+	QueryPerformanceFrequency((LARGE_INTEGER*)&TPS);
+	QueryPerformanceCounter((LARGE_INTEGER*)&start);
+	QueryPerformanceCounter((LARGE_INTEGER*)&end);
+#pragma endregion
+
+	DataChunk* storage[ALLOCATE_COUNT] = { 0, };
+
+#pragma region Stack Allocator
+	/// 스택 할당자 연산 시작
 	std::cout << "Create Stack Allocator : ";
-	IAllocator* stackAllocator = ((IAllocator * (*)(void))GetProcAddress(hDLL, "CreateStackAllocator"))();
+	IAllocator* stackAllocator = ((IAllocator * (*)(size_t, size_t))GetProcAddress(hDLL, "CreateStackAllocator"))(MEM_SIZE, 16);
 	if (stackAllocator)
 	{
 		std::cout << "Success \n";
 	}
+	// PrintAllocatorState(stackAllocator);
 
-	std::cout << "Init Allocator : ";
-	stackAllocator->Init(1024 * 1024, 16);
-	std::cout << "Success \n";
-	std::cout << "\n";
-	PrintAllocatorState(stackAllocator);
-
-	DataChunk* storage[ALLOCATE_COUNT];
-
-	std::cout << "\n";
-	std::cout << "Data Size : " << sizeof(DataChunk) << "\n\n";
-	std::cout << "Data Size : " << sizeof(int) << "\n\n";
-	std::cout << "Data Size : " << sizeof(char) << "\n\n";
-
+	QueryPerformanceCounter((LARGE_INTEGER*)&start);
 	for (int i = 0; i < ALLOCATE_COUNT; i++)
 	{
 		void* ptr = stackAllocator->Allocate(sizeof(DataChunk));
 		storage[i] = new(ptr) DataChunk();
-		std::cout << "Allocated : " << storage[i] << "\n";
-		std::cout << "Data : " << storage[i]->a << " " << storage[i]->b << " " << storage[i]->c << " " << storage[i]->d << " " << "\n";
-		PrintAllocatorState(stackAllocator);
 	}
+	QueryPerformanceCounter((LARGE_INTEGER*)&end);
+	std::cout << "Stack allocte elapse : " << (end - start) / (double)TPS << "\n\n";
+	delete stackAllocator;
+	/// 스택 할당자 연산 끝
+#pragma endregion
 
-	stackAllocator->Deallocate(storage[ALLOCATE_COUNT - 1]);
-	stackAllocator->Deallocate(storage[ALLOCATE_COUNT - 2]);
-	stackAllocator->Deallocate(storage[ALLOCATE_COUNT - 3]);
+#pragma region Pool Allocator
+/// 풀 할당자 연산 시작
+	std::cout << "Create Pool Allocator : ";
+	IAllocator* poolAllocator = ((IAllocator * (*)(size_t, size_t, size_t))GetProcAddress(hDLL, "CreatePoolAllocator"))(MEM_SIZE, sizeof(DataChunk), 16);
+	if (poolAllocator)
+	{
+		std::cout << "Success \n";
+	}
+	// PrintAllocatorState(stackAllocator);
 
-	stackAllocator->Deallocate(storage[0]);
+	QueryPerformanceCounter((LARGE_INTEGER*)&start);
+	for (int i = 0; i < ALLOCATE_COUNT; i++)
+	{
+		void* ptr = poolAllocator->Allocate(sizeof(DataChunk));
+		storage[i] = new(ptr) DataChunk();
+	}
+	QueryPerformanceCounter((LARGE_INTEGER*)&end);
+	std::cout << "Pool allocate elapse : " << (end - start) / (double)TPS << "\n\n";
+	delete poolAllocator;
+	/// 풀 할당자 연산 끝
+#pragma endregion
+
+#pragma region C++ new
+	/// C++ new 할당 시작
+	std::cout << "start New Allocate\n";
+
+	QueryPerformanceCounter((LARGE_INTEGER*)&start);
+	for (int i = 0; i < ALLOCATE_COUNT; i++)
+	{
+		storage[i] = new DataChunk();
+	}
+	QueryPerformanceCounter((LARGE_INTEGER*)&end);
+	std::cout << "elapse : " << (end - start) / (double)TPS << "\n";
+	for (int i = 0; i < ALLOCATE_COUNT; i++)
+	{
+		delete storage[i];
+	}
+	/// C++ new 할당 끝
+#pragma endregion
 
 	return 0;
 }

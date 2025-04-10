@@ -1,19 +1,9 @@
 #include "pch.h"
 #include "StackAllocator.h"
 
-StackAllocator::StackAllocator()
+StackAllocator::StackAllocator(size_t _totalByte, size_t _alignment)
 	: m_top(0)
 	, m_base(0)
-{
-
-}
-
-StackAllocator::~StackAllocator()
-{
-
-}
-
-bool StackAllocator::Init(size_t _totalByte, size_t _alignment)
 {
 	void* temp = ::operator new(_totalByte);
 	m_startPointer = reinterpret_cast<uintptr>(temp);
@@ -26,10 +16,12 @@ bool StackAllocator::Init(size_t _totalByte, size_t _alignment)
 	{
 		m_top = m_startPointer;
 		m_base = m_top;
-		return true;
 	}
+}
 
-	return false;
+StackAllocator::~StackAllocator()
+{
+
 }
 
 void* StackAllocator::Allocate(size_t _size)

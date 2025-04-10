@@ -1,12 +1,14 @@
 #pragma once
 #include "Allocator.h"
 
-class StackAllocator :
-    public Allocator
+class PoolAllocator :
+	public Allocator
+
 {
 private:
-	uintptr m_top;
-	uintptr m_base;
+	size_t m_objectSize;
+
+	uintptr m_listHead;
 
 	struct AllocatorHeader
 	{
@@ -15,10 +17,11 @@ private:
 	};
 
 public:
-	StackAllocator(size_t _totalByte, size_t _alignment);
-	virtual ~StackAllocator();
+	PoolAllocator(size_t _totalSize, size_t _objectSize, size_t _alignment);
+	virtual ~PoolAllocator();
 
 	virtual void* Allocate(size_t _size);
 	virtual bool Deallocate(void* _ptr);
+
 };
 
