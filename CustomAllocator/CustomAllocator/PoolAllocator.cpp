@@ -5,14 +5,14 @@ PoolAllocator::PoolAllocator(size_t _totalSize, size_t _objectSize, size_t _alig
 	: m_objectSize(_objectSize)
 {
 	m_alignment = _alignment;
-	m_size = _totalSize;
+	m_memorySize = _totalSize;
 	m_startPointer = (uintptr)::operator new(_totalSize);
 
 	uint8 adjustment = PointerMath::GetForwardAdjustment(m_startPointer, _alignment);
 
 	m_listHead = m_startPointer + adjustment;
 
-	size_t objectCount = (m_size - adjustment) / _objectSize;
+	size_t objectCount = (m_memorySize - adjustment) / _objectSize;
 
 	void** listHeadPtr = (void**)m_listHead;
 	for (size_t i = 0; i < objectCount - 1; i++)
@@ -40,7 +40,7 @@ void* PoolAllocator::Allocate(size_t _size)
 	m_listHead = (uintptr)(*(void**)listHeadPtr);
 
 	m_usedMemory += _size;
-	m_allcations++;
+	m_allocationCount++;
 
 	return adress;
 }
@@ -55,7 +55,15 @@ bool PoolAllocator::Deallocate(void* _ptr)
 	m_listHead = (uintptr)listHeadPtr;
 
 	m_usedMemory -= m_objectSize;
-	m_allcations--;
+	m_allocationCount--;
 
+	return true;
+}
+
+bool PoolAllocator::Clear()
+{
+	m_listHead = 0;
+	m_usedMemory = 0;
+	m_allocationCount = 0;
 	return true;
 }

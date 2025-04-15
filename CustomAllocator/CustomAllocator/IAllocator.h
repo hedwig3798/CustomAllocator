@@ -31,6 +31,12 @@ public:
 	/// <returns>성공 여부</returns>
 	virtual bool Deallocate(void * _ptr) = 0;
 
+	/// <summary>
+	/// 할당 정보 초기화
+	/// </summary>
+	/// <returns>초기화 성공 여부</returns>
+	virtual bool Clear() = 0;
+
 	virtual void* GetStartPointer() = 0;
 	virtual size_t GetUsedMemory() = 0;
 	virtual size_t GetAllocations() = 0;
@@ -48,3 +54,9 @@ extern "C" ALLOCATOR_DLL IAllocator* CreateStackAllocator(size_t _totalByte, siz
 /// </summary>
 /// <returns> 풀 할당자</returns>
 extern "C" ALLOCATOR_DLL IAllocator* CreatePoolAllocator(size_t _totalByte, size_t _objectSize, size_t _alignement = 16);
+
+/// <summary>
+/// 풀 할당자 생성
+/// </summary>
+/// <returns> 풀 할당자</returns>
+extern "C" ALLOCATOR_DLL IAllocator* CreateListAllocator(size_t _totalByte, unsigned char _mode, size_t _alignement = 16);

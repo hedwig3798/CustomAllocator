@@ -2,7 +2,7 @@
 #include "Allocator.h"
 
 class StackAllocator :
-    public Allocator
+	public Allocator
 {
 private:
 	uintptr m_top;
@@ -18,7 +18,8 @@ public:
 	StackAllocator(size_t _totalByte, size_t _alignment);
 	virtual ~StackAllocator();
 
-	virtual void* Allocate(size_t _size);
-	virtual bool Deallocate(void* _ptr);
+	virtual void* Allocate(size_t _size) override;
+	virtual bool Deallocate(void* _ptr) override;
+	virtual bool Clear() override;
 };
 

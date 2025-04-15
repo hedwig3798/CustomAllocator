@@ -22,6 +22,9 @@
     <Filter Include="Allocator\PoolAllocator">
       <UniqueIdentifier>{f5b43846-776c-43a7-8de8-b104ae79e2ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Allocator\ListAllocator">
+      <UniqueIdentifier>{8d0bf1e9-8983-481a-95fd-ce610a40592c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -48,7 +51,12 @@
     <ClInclude Include="DLLTypeDefine.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="PoolAllocator.h" />
+    <ClInclude Include="PoolAllocator.h">
+      <Filter>Allocator\PoolAllocator</Filter>
+    </ClInclude>
+    <ClInclude Include="ListAllocator.h">
+      <Filter>Allocator\ListAllocator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -66,6 +74,11 @@
     <ClCompile Include="StackAllocator.cpp">
       <Filter>Allocator\StackAllocator</Filter>
     </ClCompile>
-    <ClCompile Include="PoolAllocator.cpp" />
+    <ClCompile Include="PoolAllocator.cpp">
+      <Filter>Allocator\PoolAllocator</Filter>
+    </ClCompile>
+    <ClCompile Include="ListAllocator.cpp">
+      <Filter>Allocator\ListAllocator</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -75,6 +75,7 @@ int main()
 	}
 	QueryPerformanceCounter((LARGE_INTEGER*)&end);
 	std::cout << "Stack allocte elapse : " << (end - start) / (double)TPS << "\n\n";
+	stackAllocator->Clear();
 	delete stackAllocator;
 	/// 스택 할당자 연산 끝
 #pragma endregion
@@ -97,8 +98,55 @@ int main()
 	}
 	QueryPerformanceCounter((LARGE_INTEGER*)&end);
 	std::cout << "Pool allocate elapse : " << (end - start) / (double)TPS << "\n\n";
+	poolAllocator->Clear();
 	delete poolAllocator;
 	/// 풀 할당자 연산 끝
+#pragma endregion
+
+#pragma region List Allocator Mode First Fit
+/// 리스트 할당자 연산 시작
+	std::cout << "Create List Allocator : ";
+	IAllocator* listAllocator0 = ((IAllocator * (*)(size_t, unsigned char, size_t))GetProcAddress(hDLL, "CreateListAllocator"))(MEM_SIZE, 0, 16);
+	if (listAllocator0)
+	{
+		std::cout << "Success \n";
+	}
+	// PrintAllocatorState(stackAllocator);
+
+	QueryPerformanceCounter((LARGE_INTEGER*)&start);
+	for (int i = 0; i < ALLOCATE_COUNT; i++)
+	{
+		void* ptr = listAllocator0->Allocate(sizeof(DataChunk));
+		storage[i] = new(ptr) DataChunk();
+	}
+	QueryPerformanceCounter((LARGE_INTEGER*)&end);
+	std::cout << "List allocate First Fit elapse : " << (end - start) / (double)TPS << "\n\n";
+	listAllocator0->Clear();
+	delete listAllocator0;
+/// 리스트 할당자 연산 끝
+#pragma endregion
+
+#pragma region List Allocator Mode First Fit
+/// 리스트 할당자 연산 시작
+	std::cout << "Create List Allocator : ";
+	IAllocator* listAllocator1 = ((IAllocator * (*)(size_t, unsigned char, size_t))GetProcAddress(hDLL, "CreateListAllocator"))(MEM_SIZE, 1, 16);
+	if (listAllocator1)
+	{
+		std::cout << "Success \n";
+	}
+	// PrintAllocatorState(stackAllocator);
+
+	QueryPerformanceCounter((LARGE_INTEGER*)&start);
+	for (int i = 0; i < ALLOCATE_COUNT; i++)
+	{
+		void* ptr = listAllocator1->Allocate(sizeof(DataChunk));
+		storage[i] = new(ptr) DataChunk();
+	}
+	QueryPerformanceCounter((LARGE_INTEGER*)&end);
+	std::cout << "List allocate Best Fit elapse : " << (end - start) / (double)TPS << "\n\n";
+	listAllocator1->Clear();
+	delete listAllocator1;
+/// 리스트 할당자 연산 끝
 #pragma endregion
 
 #pragma region C++ new
