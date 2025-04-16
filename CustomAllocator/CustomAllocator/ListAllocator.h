@@ -13,6 +13,7 @@ private:
 	struct AllocatorHeader
 	{
 		size_t m_size;
+		size_t m_adjustment;
 	};
 
 	uintptr m_freeNodeHead;

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "ListAllocator.h"
 #include "PointerMath.h"
+#include <assert.h>
 
 ListAllocator::ListAllocator(size_t _totalSize, size_t _alignment, uint8 _findMode)
 	: m_findMode(_findMode)
@@ -49,9 +50,11 @@ bool ListAllocator::Deallocate(void* _ptr)
 		return false;
 	}
 
+	// DebugBreak();
+
 	// 헤더와 반납할 노드에 대한 데이터
 	AllocatorHeader* headerPtr = (AllocatorHeader*)((uintptr)(_ptr)-sizeof(AllocatorHeader));
-	uintptr nodeStart = (uintptr)(_ptr) - headerPtr->m_size;
+	uintptr nodeStart = (uintptr)(_ptr) - headerPtr->m_adjustment;
 	size_t dataSize = headerPtr->m_size;
 	uintptr nodeEnd = nodeStart + dataSize;
 
@@ -176,12 +179,14 @@ void* ListAllocator::FindFirstFit(size_t _size)
 	uintptr adress = currNode + adjustment;
 	AllocatorHeader* headerPtr = (AllocatorHeader*)(adress - sizeof(AllocatorHeader));
 	headerPtr->m_size = finalSize;
+	headerPtr->m_adjustment = adjustment;
 
 	m_usedMemory += finalSize;
 	m_allocationCount++;
 
+	assert(adress > m_startPointer);
+
 	return (void*)adress;
-	return nullptr;
 }
 
 void* ListAllocator::FindBestFit(size_t _size)
@@ -258,9 +263,11 @@ void* ListAllocator::FindBestFit(size_t _size)
 	uintptr adress = currNode + adjustment;
 	AllocatorHeader* headerPtr = (AllocatorHeader*)(adress - sizeof(AllocatorHeader));
 	headerPtr->m_size = finalSize;
+	headerPtr->m_adjustment = adjustment;
 
 	m_usedMemory += finalSize;
 	m_allocationCount++;
 
+	assert(adress > m_startPointer);
 	return (void*)adress;
 }

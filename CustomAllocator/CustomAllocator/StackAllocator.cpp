@@ -66,7 +66,7 @@ bool StackAllocator::Deallocate(void* _ptr)
 	AllocatorHeader* header = reinterpret_cast<AllocatorHeader*>(headerPtr);
 
 	m_base = header->m_base;
-	m_usedMemory -= m_top - ptr + header->m_adjustment;
+	m_usedMemory -= (m_top - ptr) + header->m_adjustment;
 	m_top = ptr - header->m_adjustment;
 	m_allocationCount--;
 
