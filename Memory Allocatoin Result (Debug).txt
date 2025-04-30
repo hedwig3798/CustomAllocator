@@ -1,0 +1,164 @@
+===============================
+Test Case
+ 1. Same Block, Allocate Only
+ 2. Same Block, Allocate And Deallocate
+ 3. Diffrent Block, Allocate Only
+ 4. Diffrent Block, Allocate And Deallocate
+===============================
+Choose Test Case : 1
+===============================
+Create Stack Allocator : Success
+Stack allocte elapse : 0.002733
+Checking Data : Success
+===============================
+
+===============================
+Create Pool Allocator : Success
+Pool allocate elapse : 0.001307
+Checking Data : Success
+===============================
+
+===============================
+Create List Allocator : Success
+List allocate First Fit elapse : 0.003844
+Checking Data : Success
+===============================
+
+===============================
+Create List Allocator : Success
+List allocate Best Fit elapse : 0.003091
+Checking Data : Success
+===============================
+
+===============================
+start New Allocate
+elapse : 0.007735
+Checking Data : Success
+===============================
+
+===============================
+Test Case
+ 1. Same Block, Allocate Only
+ 2. Same Block, Allocate And Deallocate
+ 3. Diffrent Block, Allocate Only
+ 4. Diffrent Block, Allocate And Deallocate
+===============================
+Choose Test Case : 2
+===============================
+Create Stack Allocator : Success
+Stack allocte elapse : 0.002845
+Checking Data : Success
+Lest Memory : 0
+deallocate elapse : 0.000609
+===============================
+
+===============================
+Create Pool Allocator : Success
+Pool allocate elapse : 0.001250
+Checking Data : Success
+Lest Memory : 0
+deallocate elapse : 0.000484
+===============================
+
+===============================
+Create List Allocator : Success
+List allocate First Fit elapse : 0.003419
+Checking Data : Success
+Lest Memory : 0
+deallocate elapse : 0.000815
+===============================
+
+===============================
+Create List Allocator : Success
+List allocate Best Fit elapse : 0.003023
+Checking Data : Success
+Lest Memory : 0
+deallocate elapse : 0.000818
+===============================
+
+===============================
+start New Allocate
+new elapse : 0.007197
+Checking Data : Success
+delete elapse : 0.006573
+===============================
+
+===============================
+Test Case
+ 1. Same Block, Allocate Only
+ 2. Same Block, Allocate And Deallocate
+ 3. Diffrent Block, Allocate Only
+ 4. Diffrent Block, Allocate And Deallocate
+===============================
+Choose Test Case : 3
+===============================
+Create Stack Allocator : Success
+Stack allocte elapse : 0.000365
+Checking Data : Success
+===============================
+
+===============================
+Create List Allocator : Success
+List allocate First Fit elapse : 0.000403
+Checking Data : Success
+===============================
+
+===============================
+Create List Allocator : Success
+List allocate Best Fit elapse : 0.000322
+Checking Data : Success
+===============================
+
+===============================
+start New Allocate
+new elapse : 0.001589
+Checking Data : Success
+===============================
+
+===============================
+Test Case
+ 1. Same Block, Allocate Only
+ 2. Same Block, Allocate And Deallocate
+ 3. Diffrent Block, Allocate Only
+ 4. Diffrent Block, Allocate And Deallocate
+===============================
+Choose Test Case : 4
+===============================
+Create Stack Allocator : Success
+Stack allocte elapse : 0.000256
+Checking Data : Success
+Lest Memory : 415992
+deallocate elapse : 0.000033
+===============================
+
+===============================
+Create List Allocator : Success
+List allocate First Fit elapse : 0.000461
+Checking Data : Success
+Lest Memory : 0
+deallocate elapse : 0.000075
+===============================
+
+===============================
+Create List Allocator : Success
+List allocate Best Fit elapse : 0.000327
+Checking Data : Success
+Lest Memory : 0
+deallocate elapse : 0.000080
+===============================
+
+===============================
+start New Allocate
+new elapse : 0.000883
+Checking Data : Success
+deallocate elapse : 0.000818
+===============================
+
+===============================
+Test Case
+ 1. Same Block, Allocate Only
+ 2. Same Block, Allocate And Deallocate
+ 3. Diffrent Block, Allocate Only
+ 4. Diffrent Block, Allocate And Deallocate
+===============================
+Choose Test Case :

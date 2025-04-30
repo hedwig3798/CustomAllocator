@@ -810,7 +810,11 @@ void TestDiffrentBlockAllocateTime()
 void TestDiffrentBlockAllocateAndDeleteTime()
 {
 #pragma region DLL Ready
+#ifdef _DEBUG
+	std::string path("./CustomAllocatorD.dll");
+#else
 	std::string path("./CustomAllocator.dll");
+#endif
 
 	HMODULE hDLL = ::LoadLibraryA(path.c_str());
 	if (hDLL == nullptr)
